@@ -1,7 +1,13 @@
+const path = require('path')
 const appData = require('./data.json')
 const seller = appData.seller
 const goods = appData.goods
 const ratings = appData.ratings
+
+// 项目目录加上dir得到该文件的目录
+function resolve (dir) {
+  return path.join(__dirname, dir)
+}
 
 module.exports = {
   css: {
@@ -40,6 +46,11 @@ module.exports = {
           data: ratings
         })
       })
+    },
+    chainWebpack (config) {
+      config.resolve.alias
+        .set('components', resolve('scr/components'))
+        .set('common', resolve('src/common'))
     }
   }
 }
