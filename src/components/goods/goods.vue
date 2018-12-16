@@ -60,15 +60,22 @@
         </cube-scroll-nav-panel>
       </cube-scroll-nav>
     </div>
+    <div class="shop-cart-wrapper">
+      <shop-cart
+        :deliveryPrice="seller.deliveryPrice"
+        :minPrice="seller.minPrice">
+      </shop-cart>
+    </div>
   </div>
 </template>
 
 <script>
 import { getGoods } from 'api'
-// import Bubble from 'components/bubble/bubble'
+import ShopCart from '../shop-cart/shop-cart'
 
 export default {
   name: 'goods',
+  components: { ShopCart },
   props: {
     data: {
       type: Object,
@@ -84,6 +91,11 @@ export default {
         click: false,
         directionLockThreshold: 0
       }
+    }
+  },
+  computed: {
+    seller () {
+      return this.data.seller
     }
   },
   methods: {
