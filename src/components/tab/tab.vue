@@ -16,6 +16,9 @@
         :show-dots=false
         :initial-index="index"
         ref="slide"
+        @change="onChange"
+        @scroll="onScroll"
+        :options="slideOptions"
       >
         <!--<cube-slide-item v-for="(tab,index) in tabs" :key="index">-->
         <!--<component ref="component" :is="tab.component" :data="tab.data"></component>-->
@@ -50,7 +53,12 @@ export default {
         label: '评价'
       }, {
         label: '商家'
-      }]
+      }],
+      slideOptions: {
+        listenScroll: true,
+        probeType: 3,
+        directionLockThreshold: 0
+      }
     }
   },
   computed: {
@@ -63,6 +71,17 @@ export default {
           return value.label === newVal
         })
       }
+    }
+  },
+  methods: {
+    onChange (current) {
+      this.index = current
+    },
+    onScroll (pos) {
+      const tabBarWidth = this.$refs.tabBar.$el.clientWidth
+      const slideWidth = this.$refs.slide.slide.scrollerWidth
+      const transform = -pos.x / slideWidth * tabBarWidth
+      this.$refs.tabBar.setSliderTransform(transform)
     }
   },
   components: {
