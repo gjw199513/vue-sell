@@ -36,7 +36,7 @@ export default {
     tabs: {
       type: Array,
       default () {
-        return {}
+        return []
       }
     },
     // 设置默认显示的标签
@@ -67,9 +67,17 @@ export default {
       }
     }
   },
+  mounted () {
+    // 首次进入时请求数据
+    this.onChange(this.index)
+  },
   methods: {
     onChange (current) {
       this.index = current
+      // 根据不同组件请求对应的数据
+      const component = this.$refs.component[current]
+      // 当存在请求数据的方法（fetch）时才进行请求
+      component.fetch && component.fetch()
     },
     onScroll (pos) {
       const tabBarWidth = this.$refs.tabBar.$el.clientWidth
